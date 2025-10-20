@@ -1,0 +1,344 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 17, 2025, 4:20:52 PM
+    Author     : THAI
+*/
+/* General */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+/* style.css */
+
+html, body {
+    height: 100%; /* Bắt buộc */
+    margin: 0;
+    padding: 0;
+}
+
+#wrapper {
+    /* Đặt wrapper làm container chính cho nội dung có thể cuộn */
+    display: flex;
+    flex-direction: column;
+    min-height: 100%; /* Đảm bảo wrapper kéo dài hết chiều cao viewport */
+}
+
+/* Container chứa nội dung chính (header, menu, main) */
+.container {
+    flex: 1; /* Cho phép container này mở rộng hết không gian còn lại */
+    display: flex; /* Dùng flex cho layout 2 cột (menu trái và nội dung chính) */
+}
+
+/* Đảm bảo content và menu bên trái nằm trong container và giãn nở */
+
+
+/* Tô màu khác cho mục menu đang active */
+.top-menu ul li.active a {
+    color: #ff6600; /* Ví dụ: Màu cam */
+    font-weight: bold;
+    border-bottom: 2px solid #ff6600; /* Ví dụ: Thêm đường gạch chân */
+}
+.top-menu1 ul li.active a {
+    color: #ff6600; /* Ví dụ: Màu cam */
+    font-weight: bold;
+    border-bottom: 2px solid #ff6600; /* Ví dụ: Thêm đường gạch chân */
+}
+
+
+footer {
+    /* Đảm bảo footer không bị flex: 1 ảnh hưởng và có chiều cao cố định */
+    height: auto;
+    padding: 20px 0;
+    text-align: center;
+    background-color: #333; /* Thêm màu nền để dễ nhìn */
+    color: white;
+}
+#wrapper {
+    padding-top: 20px;
+    margin:  auto;
+    box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    background-color: #fff;
+}
+.title {
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    color: #333;
+}
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+a:hover {
+    text-decoration: underline;
+}
+/* Header & Top Menu */
+.top-menu {
+
+    position: fixed;
+    /* Đảm bảo nó luôn ở trên cùng và tràn hết chiều ngang */
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin-bottom: 4px;
+    /* Thiết lập độ sâu (đảm bảo nó chồng lên nội dung khác) */
+    z-index: 1000;
+
+    /* Thêm một chút đổ bóng để nó nổi bật khỏi nội dung */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
+    /* Tùy chọn: Thêm hiệu ứng chuyển động mượt mà (nếu bạn thêm hiệu ứng ẩn/hiện) */
+    transition: top 0.3s;
+    background: #343a40;
+}
+.top-menu ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+.top-menu ul li a {
+    color: white;
+    padding: 15px 25px;
+    display: block;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.top-menu ul li a:hover {
+    background-color: #007bff;
+    text-decoration: none;
+}
+.top-menu1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
+    transition: top 0.3s;
+    background: #343a40;
+}
+.top-menu1 ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+.top-menu1 ul li a {
+    color: white;
+    padding: 15px 25px;
+    display: block;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.top-menu1 ul li a:hover {
+    background-color: #007bff;
+    text-decoration: none;
+}
+/* Layout */
+.container {
+    display: flex;
+    padding: 20px;
+}
+.content {
+    margin-top: 21px;
+    flex: 4;
+    padding-left: 20px;
+}
+/* Left Menu */
+.left-menu {
+    margin-top: 29px;
+    flex: 1;
+    padding-right: 20px;
+}
+.left-menu ul {
+    list-style: none;
+    padding: 0;
+}
+.left-menu ul li a {
+    display: block;
+    padding: 10px 5px;
+    color: #333;
+    border-bottom: 1px dotted #ccc;
+    transition: all 0.3s;
+}
+.left-menu ul li a:hover {
+    background: #f8f9fa;
+    padding-left: 15px;
+    color: #007bff;
+    font-weight: bold;
+}
+/* Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+.product-item {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+    transition: transform 0.2s;
+}
+.product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.product-item img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: contain;
+}
+.product-name {
+    font-size: 1em;
+    height: 40px;
+    overflow: hidden;
+    margin: 10px 0;
+    color: #333;
+}
+.product-price {
+    color: #d9534f;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+.add-to-cart-btn {
+    background: #5cb85c;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+}
+.add-to-cart-btn:hover {
+    background: #4cae4c;
+    text-decoration: none;
+}
+/* Forms */
+.form-container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.form-group input, .form-group textarea {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+.submit-btn {
+    background: #007bff;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+/* Product Detail */
+.product-detail {
+    margin-top: 40px;
+    display: flex;
+    gap: 30px;
+}
+.product-detail-image {
+    flex: 1;
+    text-align: center;
+}
+.product-detail-image img {
+    max-width: 100%;
+    border: 1px solid #eee;
+    padding: 10px;
+}
+.product-detail-info {
+    flex: 1;
+}
+/* Footer */
+footer {
+    background: #343a40;
+    color: #f8f9fa;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+.title{
+    text-align: center;
+}
+/* Container bao bọc slideshow */
+/*.banner-slider {
+    position: relative;  Quan trọng để các item con có thể position: absolute 
+    width: 100%;
+    overflow: hidden;  Ẩn các phần tử tràn ra ngoài 
+}
+
+ Các item ảnh trong slideshow 
+.banner-item {
+    position: absolute;  Đặt các ảnh chồng lên nhau 
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;  Mặc định ẩn tất cả ảnh 
+    transition: opacity 1s ease-in-out;  Thêm hiệu ứng fade mượt mà 
+}
+
+ Chỉ hiển thị ảnh có class 'active' 
+.banner-item.active {
+    position: relative;  Đặt lại thành relative để giữ chỗ trong luồng document 
+    opacity: 1;  Hiển thị ảnh đang active 
+}
+
+.banner-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+prev-btn, .next-btn {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;  Căn giữa theo chiều dọc 
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;  Dịch lên để căn giữa hoàn hảo 
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.5);  Nền mờ 
+}
+
+ Nút Next ở bên phải 
+.next-btn {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+ Nút Prev ở bên trái 
+.prev-btn {
+    left: 0;
+}
+
+ Hiệu ứng khi rê chuột vào nút 
+.prev-btn:hover, .next-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}*/
