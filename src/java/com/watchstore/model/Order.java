@@ -10,64 +10,35 @@ public class Order {
     private String customerName;
     private String customerAddress;
     private String customerPhone;
+    private String status;
+    private String reference;
 
-    public Order() {
-    }
-    
-    // Getters and Setters for all fields
-    public int getId() {
-        return id;
-    }
+    public Order() {}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public int getUserId() {
-        return userId;
-    }
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+    public Timestamp getOrderDate() { return orderDate; }
+    public void setOrderDate(Timestamp orderDate) { this.orderDate = orderDate; }
 
-    public Timestamp getOrderDate() {
-        return orderDate;
-    }
+    public double getTotalMoney() { return totalMoney; }
+    public void setTotalMoney(double totalMoney) { this.totalMoney = totalMoney; }
 
-    public void setOrderDate(Timestamp orderDate) {
-        this.orderDate = orderDate;
-    }
+    public String getCustomerName() { return customerName; }
+    public void setCustomerName(String customerName) { this.customerName = customerName; }
 
-    public double getTotalMoney() {
-        return totalMoney;
-    }
+    public String getCustomerAddress() { return customerAddress; }
+    public void setCustomerAddress(String customerAddress) { this.customerAddress = customerAddress; }
 
-    public void setTotalMoney(double totalMoney) {
-        this.totalMoney = totalMoney;
-    }
+    public String getCustomerPhone() { return customerPhone; }
+    public void setCustomerPhone(String customerPhone) { this.customerPhone = customerPhone; }
 
-    public String getCustomerName() {
-        return customerName;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getCustomerAddress() {
-        return customerAddress;
-    }
-
-    public void setCustomerAddress(String customerAddress) {
-        this.customerAddress = customerAddress;
-    }
-
-    public String getCustomerPhone() {
-        return customerPhone;
-    }
-
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
-    }
+    public String getReference() { return reference; }
+    public void setReference(String reference) { this.reference = reference; }
 }
