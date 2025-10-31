@@ -3,49 +3,51 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/dao/OrderDAO.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/HomeController.java</file>
-            <file>file:/E:/BanDongHo/WatchShop/web/contact.jsp</file>
-            <file>file:/E:/BanDongHo/WatchShop/web/register.jsp</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/dao/OrderDAO.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/dao/ContactDAO.java</file>
-            <file>file:/E:/BanDongHo/WatchShop/web/detail.jsp</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/model/User.java</file>
-            <file>file:/E:/BanDongHo/WatchShop/web/home.jsp</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/ProductsController.java</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/util/EmailUtil.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/model/OrderDetail.java</file>
-            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/dao/ProductDAO.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/model/Cart.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/model/Contact.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/LoginServlet.java</file>
-            <file>file:/E:/BanDongHo/WatchShop/web/checkout.jsp</file>
-            <file>file:/E:/BanDongHo/WatchShop/web/index.html</file>
-            <file>file:/E:/BanDongHo/WatchShop/web/admin/admin_footer.jsp</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/dao/ProductDAO.java</file>
+            <file>file:/E:/BanDongHo/WatchShop/web/admin/view-contacts.jsp</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/AdminOrderServlet.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/CategoryServlet.java</file>
-            <file>file:/E:/BanDongHo/WatchShop/web/left_menu.jsp</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/dao/CartDAO.java</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/EditProfileServlet.java</file>
             <file>file:/E:/BanDongHo/WatchShop/web/admin/dashboard.jsp</file>
             <file>file:/E:/BanDongHo/WatchShop/web/admin/add-edit-product.jsp</file>
-            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/dao/UserDAO.java</file>
-            <file>file:/E:/BanDongHo/WatchShop/web/admin/statistics.jsp</file>
-            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/context/DBContext.java</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/ViewContactsServlet.java</file>
+            <file>file:/E:/BanDongHo/WatchShop/web/reset_password.jsp</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/model/Order.java</file>
             <file>file:/E:/BanDongHo/WatchShop/web/css/style.css</file>
-            <file>file:/E:/BanDongHo/WatchShop/web/header.jsp</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/StatisticsServlet.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/CartServlet.java</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/OrderDetailServlet.java</file>
+            <file>file:/E:/BanDongHo/WatchShop/web/edit_profile.jsp</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/ForgotPasswordServlet.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/RegisterServlet.java</file>
-            <file>file:/E:/BanDongHo/WatchShop/web/footer.jsp</file>
-            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/util/PasswordUtil.java</file>
+            <file>file:/E:/BanDongHo/WatchShop/web/admin/manage_orders.jsp</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/model/Category.java</file>
+            <file>file:/E:/BanDongHo/WatchShop/web/admin/manage_users.jsp</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/ExportOrdersExcelServlet.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/model/Item.java</file>
             <file>file:/E:/BanDongHo/WatchShop/web/cart.jsp</file>
             <file>file:/E:/BanDongHo/WatchShop/web/admin/admin_header.jsp</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/model/Product.java</file>
             <file>file:/E:/BanDongHo/WatchShop/web/admin/manage-products.jsp</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/ExportExcelServlet.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/CheckoutServlet.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/dao/CategoryDAO.java</file>
             <file>file:/E:/BanDongHo/WatchShop/web/login.jsp</file>
-            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/filter/AdminFilter.java</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/AdminUserServlet.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/DetailServlet.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/ManageProductsServlet.java</file>
-            <file>file:/E:/BanDongHo/WatchShop/web/css/admincss.css</file>
+            <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/LogoutServlet.java</file>
             <file>file:/E:/BanDongHo/WatchShop/src/java/com/watchstore/controlller/ContactServlet.java</file>
         </group>
     </open-files>

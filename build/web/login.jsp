@@ -25,9 +25,34 @@
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit" class="submit-btn">Đăng Nhập</button>
-            <p class="form-link">Chưa có tài khoản? <a href="<c:url value='/register.jsp'/>">Đăng ký ngay</a></p>
+            <div class="forgot" style="text-align: center; margin-top: 10px;">
+                <a href="/WatchShop/forgot.jsp">Quên mật khẩu ?  </a>
+            </div>
+            <div class="signup" style="text-align: center">    
+                <hr><br>
+                <a href="/WatchShop/register.jsp" style="
+
+                   color: white;
+                   font-size: 20px;
+                   padding: 11px;
+                   background-color: green;
+                   ">Tạo tài khoản mới</a>
+            </div>
         </form>
     </div>
 </main>
 
 <jsp:include page="footer.jsp" />
+<script>
+    function togglePassword() {
+        var field = document.getElementById("password");
+        var eye = document.querySelector(".toggle-eye");
+        if (field.type === "password") {
+            field.type = "text";
+            eye.textContent = "🙈";
+        } else {
+            field.type = "password";
+            eye.textContent = "👁️";
+        }
+    }
+</script>

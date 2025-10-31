@@ -14,28 +14,32 @@
     <body>
         <nav class="top-menu">
             <ul>
-                <%-- Trang Chủ --%>
                 <li class="${activePage eq 'home' ? 'active' : ''}"><a href="<c:url value='/home'/>">Trang Chủ</a></li>
-                    <%-- Sản Phẩm / Category --%>
                 <li class="${activePage eq 'products' || activePage eq 'category' ? 'active' : ''}">
                     <a href="products">Sản Phẩm</a>
                 </li>
-                <%-- Giỏ Hàng --%>
                 <li class="${activePage eq 'cart' ? 'active' : ''}"><a href="<c:url value='/cart'/>">Giỏ Hàng</a></li>
-                    <%-- Liên Hệ --%>
                 <li class="${activePage eq 'contact' ? 'active' : ''}"><a href="<c:url value='/contact'/>">Liên Hệ</a></li>
 
-                <%-- LOGIC: Đăng Nhập / Đăng Xuất --%>
+                <%-- LOGIC: Đăng Nhập / Đăng Xuất & Menu Hồ Sơ --%>
                 <c:choose>
                     <c:when test="${sessionScope.account != null}">
-                        <li class="greeting"><a href="#" style="color: white; font-weight: bold;">Xin chào, ${sessionScope.account.fullname}</a></li>
-                        <li class="${activePage eq 'logout' ? 'active' : ''}"><a href="<c:url value='/logout'/>">Đăng Xuất</a></li>
-                        </c:when>
-                        <c:otherwise>
+                        <li class="dropdown ${activePage eq 'profile' ? 'active' : ''}">
+                            <a href="javascript:void(0);" style="cursor: default;">
+                                Chào, ${sessionScope.account.fullname}
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="<c:url value='/order-history'/>">Đơn hàng của tôi</a></li>
+                                <li><a href="<c:url value='/edit-profile'/>">Hồ sơ cá nhân</a></li>
+                                <li><a href="<c:url value='/logout'/>">Đăng Xuất</a></li>
+                            </ul>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
                         <li class="${activePage eq 'login' ? 'active' : ''}"><a href="<c:url value='/login.jsp'/>">Đăng Nhập</a></li>
                         <li class="${activePage eq 'register' ? 'active' : ''}"><a href="<c:url value='/register.jsp'/>">Đăng Ký</a></li>
-                        </c:otherwise>
-                    </c:choose>
+                    </c:otherwise>
+                </c:choose>
             </ul>
         </nav>
         <div id="wrapper">

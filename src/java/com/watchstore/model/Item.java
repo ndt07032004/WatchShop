@@ -1,4 +1,4 @@
-package com.watchstore.model;
+package com.watchstore.model; // Hoặc package của bạn
 
 public class Item {
     private Product product;
@@ -12,11 +12,18 @@ public class Item {
         this.quantity = quantity;
     }
 
+    // Tính tổng tiền dựa trên giá HIỆN TẠI của sản phẩm
     public double getTotalPrice() {
-        return product.getPrice() * quantity;
+        // ⭐ THÊM KIỂM TRA NULL CHO product ⭐
+        if (product != null) {
+            return product.getPrice() * quantity; // Chỉ tính nếu product tồn tại
+        }
+        // Trả về 0 nếu product không tồn tại để tránh lỗi
+        System.err.println("WARN (Item): Attempted to getTotalPrice on an Item with null product!"); // Ghi log cảnh báo
+        return 0;
     }
 
-    // Getters and Setters
+    // Getters and Setters (Giữ nguyên)
     public Product getProduct() {
         return product;
     }

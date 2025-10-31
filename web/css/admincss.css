@@ -6,6 +6,7 @@ body {
 }
 
 .admin-container {
+    text-align: center;
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
@@ -23,6 +24,7 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+
 
 .admin-menu ul {
     list-style: none;
@@ -48,6 +50,7 @@ body {
 }
 
 .title {
+    text-align:center;
     color: #333;
     margin-top: 0;
     padding-bottom: 10px;
@@ -74,6 +77,7 @@ table th {
 }
 
 .submit-btn {
+    margin-right: 20px;
     background-color: #28a745;
     color: white;
     padding: 10px 15px;
@@ -116,4 +120,68 @@ table th {
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+/* Trong file css/admincss.css */
+
+/* Container cho các thẻ thống kê */
+.stats-cards {
+    display: grid; /* Sử dụng grid layout */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Tự động chia cột */
+    gap: 20px; /* Khoảng cách giữa các thẻ */
+    margin-top: 20px;
+}
+
+/* Style cho từng thẻ thống kê */
+.stat-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border-left: 5px solid #ccc; /* Đường viền màu mặc định */
+}
+
+/* Icon trong thẻ */
+.stat-card .stat-icon {
+    font-size: 2.5em; /* Kích thước icon */
+    margin-bottom: 10px;
+}
+
+/* Giá trị thống kê */
+.stat-card .stat-value {
+    font-size: 1.8em; /* Kích thước số liệu */
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Nhãn mô tả */
+.stat-card .stat-label {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 5px;
+}
+.stat-card small {
+    font-size: 0.8em;
+    color: #999;
+}
+
+.stats-table th, .stats-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.stats-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.stats-table tr:hover td {
+    background-color: #eef5ff;
+}
+
+.stats-table small {
+    color: #555;
+}
+h2{
+    text-align: center;
 }

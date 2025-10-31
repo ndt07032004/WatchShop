@@ -1,113 +1,96 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-package com.watchstore.controlller;
+package com.watchstore.controlller; // Giữ nguyên package
 
-import com.watchstore.dao.CategoryDAO;
+import com.watchstore.dao.CategoryDAO; // Cần nếu top_menu dùng categoryList
 import com.watchstore.dao.ContactDAO;
 import com.watchstore.model.Contact;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author THAI
- */
-
 @WebServlet(name = "ContactServlet", urlPatterns = {"/contact"})
 public class ContactServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ContactServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ContactServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
      * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Chỉ dùng để hiển thị form liên hệ ban đầu.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String message = request.getParameter("message");
-        
-        if (name == null || name.trim().isEmpty() || email == null || email.trim().isEmpty() || message == null || message.trim().isEmpty()) {
-            request.setAttribute("error", "Vui lòng điền đầy đủ thông tin.");
-        } else {
-            ContactDAO dao = new ContactDAO();
-            Contact contact = new Contact();
-            contact.setName(name);
-            contact.setEmail(email);
-            contact.setMessage(message);
-            dao.addContact(contact);
-            request.setAttribute("success", "Gửi liên hệ thành công! Chúng tôi sẽ phản hồi sớm.");
-        }
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8"); // Nên đặt encoding ở đây nữa
+
+        // Lấy danh sách category cho top_menu (nếu cần)
         CategoryDAO cDao = new CategoryDAO();
         request.setAttribute("categoryList", cDao.getAllCategories());
 
-        // 2. Set trang active
+        // Set trang active cho top_menu
         request.setAttribute("activePage", "contact");
+
+        // Forward đến trang JSP để hiển thị form
         request.getRequestDispatcher("contact.jsp").forward(request, response);
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Xử lý dữ liệu gửi lên từ form liên hệ.
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8"); // QUAN TRỌNG: Đặt encoding ở đầu doPost
+
+        // 1. Lấy dữ liệu từ form
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String message = request.getParameter("message");
+
+        // 2. Kiểm tra dữ liệu
+        if (name == null || name.trim().isEmpty() ||
+            email == null || email.trim().isEmpty() ||
+            message == null || message.trim().isEmpty()) {
+            // Nếu thiếu thông tin -> báo lỗi
+            request.setAttribute("error", "Vui lòng điền đầy đủ thông tin bắt buộc (*).");
+            System.err.println("WARN (ContactServlet): Form submission missing required fields.");
+        } else {
+            // Nếu đủ thông tin -> gọi DAO để lưu
+            ContactDAO dao = new ContactDAO();
+            Contact contact = new Contact();
+            contact.setName(name.trim()); // Trim() để loại bỏ khoảng trắng thừa
+            contact.setEmail(email.trim());
+            contact.setMessage(message.trim());
+
+            // Gọi hàm addContact và kiểm tra kết quả
+            boolean success = dao.addContact(contact);
+
+            if (success) {
+                // Nếu lưu thành công -> báo thành công
+                request.setAttribute("success", "Gửi liên hệ thành công! Chúng tôi sẽ phản hồi sớm.");
+                System.out.println("INFO (ContactServlet): Contact saved successfully from " + email);
+            } else {
+                // Nếu lưu thất bại -> báo lỗi CSDL
+                request.setAttribute("error", "Đã xảy ra lỗi khi lưu thông tin liên hệ. Vui lòng thử lại.");
+                System.err.println("ERROR (ContactServlet): Failed to save contact to database from " + email);
+            }
+        }
+
+        // 3. Lấy lại danh sách category cho top_menu (vì forward)
+        CategoryDAO cDao = new CategoryDAO();
+        request.setAttribute("categoryList", cDao.getAllCategories());
+
+        // 4. Set trang active
+        request.setAttribute("activePage", "contact");
+
+        // 5. Forward về lại trang contact.jsp để hiển thị thông báo
+        request.getRequestDispatcher("contact.jsp").forward(request, response);
     }
 
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Handles contact form submissions.";
+    }
 }

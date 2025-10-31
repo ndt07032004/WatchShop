@@ -11,11 +11,6 @@
 <aside class="left-menu">
     <h3 class="title">DANH MỤC SẢN PHẨM</h3>
     <ul>
-        <%-- Mục "Tất cả sản phẩm" (Nếu cần) --%>
-        <%-- Giả định categoryId=0/1 là Tất cả sản phẩm. Dùng 'products' để active khi đang ở trang /products --%>
-        <li class="${empty param.cid || activePage eq 'products' ? 'active' : ''}">
-            <a href="products">Tất Cả Sản Phẩm</a>
-        </li>
         <%-- Lặp qua danh sách category --%>
         <c:forEach items="${categoryList}" var="cat">
             <li class="${activeCid eq cat.id ? 'active' : ''}"><a href="category?cid=${cat.id}">${cat.name}</a></li>
