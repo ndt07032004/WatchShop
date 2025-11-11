@@ -1,15 +1,18 @@
 package com.watchstore.model;
 
+import java.sql.Timestamp;
+
 public class Contact {
     private int id;
     private String name;
     private String email;
     private String message;
+    private Timestamp createdAt; // ✅ Thêm thuộc tính thời gian gửi
 
     public Contact() {
     }
-    
-    // Getters and Setters
+
+    // --- Getters và Setters ---
     public int getId() {
         return id;
     }
@@ -40,5 +43,13 @@ public class Contact {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 }

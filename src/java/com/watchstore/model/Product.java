@@ -11,6 +11,24 @@ public class Product {
     private String image;
     private int categoryId;
     private int stock;
+    private double costPrice;
+    private String categoryName;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public double getCostPrice() {
+        return costPrice;
+    }
+
+    public void setCostPrice(double costprice) {
+        this.costPrice = costprice;
+    }
 
     public Product() {
     }

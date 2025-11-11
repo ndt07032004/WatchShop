@@ -33,33 +33,33 @@ public class ProductsController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-        
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         ProductDAO productDAO = new ProductDAO();
         CategoryDAO categoryDAO = new CategoryDAO();
-        
+
         // ********************** LOGIC LỌC GIÁ **********************
         String priceRange_raw = request.getParameter("priceRange");
+        String searchQuery = request.getParameter("query");
         double minPrice = 0;
         double maxPrice = 0;
+
         
+
         if (priceRange_raw != null && !priceRange_raw.isEmpty()) {
             try {
                 // Ví dụ: priceRange=1000000-5000000 hoặc priceRange=10000000-0
                 String[] parts = priceRange_raw.split("-");
                 if (parts.length > 0) {
-                     minPrice = Double.parseDouble(parts[0]);
+                    minPrice = Double.parseDouble(parts[0]);
                 }
-                
+
                 // Kiểm tra phần tử thứ hai cho maxPrice
                 if (parts.length > 1) {
                     // Nếu là "0" (ví dụ: 10000000-0), nghĩa là "trên mức" -> maxPrice = 0 (sẽ được xử lý trong DAO)
-                    if (!parts[1].equals("0")) { 
+                    if (!parts[1].equals("0")) {
                         maxPrice = Double.parseDouble(parts[1]);
                     }
                 }
@@ -67,7 +67,7 @@ public class ProductsController extends HttpServlet {
                 // Bỏ qua nếu giá trị không hợp lệ
             }
         }
-        
+
         List<Product> productList = productDAO.getProductsByPriceRange(0, minPrice, maxPrice);
 
         // 2. Lấy danh mục (Cần cho left menu)
@@ -78,9 +78,8 @@ public class ProductsController extends HttpServlet {
         request.setAttribute("categoryList", categoryList);
         request.setAttribute("activePage", "products"); // Sửa lỗi menu: đảm bảo menu Sản phẩm active
         request.setAttribute("activePriceRange", priceRange_raw); // Để đánh dấu active cho menu lọc giá
-        request.setAttribute("pageTitle", "TẤT CẢ SẢN PHẨM"); 
+        request.setAttribute("pageTitle", "TẤT CẢ SẢN PHẨM");
 
-       
         request.getRequestDispatcher("Products.jsp").forward(request, response);
     }
 

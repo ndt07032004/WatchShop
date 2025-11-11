@@ -5,49 +5,27 @@ public class OrderDetail {
     private int orderId;
     private int productId;
     private int quantity;
-    private double price; // Giá tại thời điểm mua
+    private double price;
 
-    public OrderDetail() {
-    }
-    
-    // Getters and Setters for all fields
-    public int getId() {
-        return id;
-    }
+    private Product product; // Thông tin sản phẩm (name, image,...)
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public OrderDetail() {}
 
-    public int getOrderId() {
-        return orderId;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
+    public int getOrderId() { return orderId; }
+    public void setOrderId(int orderId) { this.orderId = orderId; }
 
-    public int getProductId() {
-        return productId;
-    }
+    public int getProductId() { return productId; }
+    public void setProductId(int productId) { this.productId = productId; }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 
-    public int getQuantity() {
-        return quantity;
-    }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
+    public Product getProduct() { return product; }
+    public void setProduct(Product product) { this.product = product; }
 }
