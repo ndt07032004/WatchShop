@@ -33,7 +33,24 @@ public class ExportOrdersExcelServlet extends HttpServlet {
 
         try {
             OrderDAO orderDAO = new OrderDAO();
-            List<Order> orderList = orderDAO.getAllOrders();
+            // Lấy dữ liệu theo cách đã tối ưu hóa N+1
+            List<Order> orderList = orderDAO.getAllOrdersWithDetails();
+
+            // Tự xử lý tạo chuỗi tóm tắt sản phẩm trong Java
+            for (Order order : orderList) {
+                StringBuilder summary = new StringBuilder();
+                if (order.getDetails() != null) {
+                    for (int i = 0; i < order.getDetails().size(); i++) {
+                        com.watchstore.model.OrderDetail detail = order.getDetails().get(i);
+                        summary.append(detail.getProduct().getName())
+                               .append(" (SL: ").append(detail.getQuantity()).append(")");
+                        if (i < order.getDetails().size() - 1) {
+                            summary.append(", \n"); // Thêm xuống dòng cho dễ đọc trong Excel
+                        }
+                    }
+                }
+                order.setProductSummary(summary.toString());
+            }
 
             Workbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("Danh sách Đơn hàng");

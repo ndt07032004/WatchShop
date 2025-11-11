@@ -33,26 +33,11 @@ public class AdminOrderServlet extends HttpServlet {
         try {
             OrderDAO orderDAO = new OrderDAO();
 
-            // 2. Lấy danh sách tất cả đơn hàng
-            List<Order> allOrders = orderDAO.getAllOrders();
-
-            // --- ⭐ BẮT ĐẦU CODE MỚI: Lấy chi tiết cho từng đơn hàng ---
-            // Tạo một Map để lưu chi tiết: Key là OrderID, Value là List<OrderDetail>
-            java.util.Map<Integer, List<OrderDetail>> orderDetailsMap = new java.util.HashMap<>();
-            if (allOrders != null) {
-                for (Order order : allOrders) {
-                    // Gọi hàm DAO để lấy chi tiết (cần hàm này trong OrderDAO và nó phải JOIN với Product)
-                    List<OrderDetail> details = orderDAO.getOrderDetailsByOrderId(order.getId());
-                    orderDetailsMap.put(order.getId(), details); // Lưu vào Map
-                }
-            }
-             System.out.println("DEBUG (Admin): Fetched details for " + orderDetailsMap.size() + " orders."); // Log
-            // --- ⭐ KẾT THÚC CODE MỚI ---
-
+            // 2. Lấy danh sách tất cả đơn hàng cùng với chi tiết của chúng (ĐÃ TỐI ƯU HÓA N+1)
+            List<Order> allOrders = orderDAO.getAllOrdersWithDetails();
 
             // 3. Gửi dữ liệu sang trang JSP
             request.setAttribute("orderList", allOrders);
-            request.setAttribute("orderDetailsMap", orderDetailsMap); // <<< GỬI MAP CHỨA CHI TIẾT SANG JSP
             request.setAttribute("pageTitle", "Quản lý Đơn hàng");
             request.setAttribute("activePage", "orders");
 
@@ -102,6 +87,50 @@ public class AdminOrderServlet extends HttpServlet {
                  if (orderDAO.updateOrderStatus(orderId, newStatus)) {
                      message = "Cập nhật trạng thái đơn hàng #" + orderId + " thành '" + newStatus + "' thành công!";
                      System.out.println("   >> Order status updated successfully.");
+
+                     // --- GỬI EMAIL THÔNG BÁO CHO KHÁCH HÀNG ---
+                     try {
+                         Order orderDetails = orderDAO.getOrderWithCustomerEmail(orderId);
+                         if (orderDetails != null && orderDetails.getCustomer() != null) {
+                             String toEmail = orderDetails.getCustomer().getEmail();
+                             String customerName = orderDetails.getCustomer().getFullname();
+                             String subject = "";
+                             String body = "";
+
+                             // Soạn nội dung email dựa trên trạng thái mới
+                             switch (newStatus) {
+                                 case "Đang xử lý":
+                                     subject = String.format("Đơn hàng #%d của bạn đã được xác nhận", orderId);
+                                     body = String.format("Xin chào %s,\n\nĐơn hàng #%d của bạn tại WatchStore đã được xác nhận và đang trong quá trình xử lý.\nChúng tôi sẽ thông báo cho bạn khi đơn hàng bắt đầu được giao.\n\nCảm ơn bạn đã mua sắm!", customerName, orderId);
+                                     break;
+                                 case "Đang giao hàng":
+                                     subject = String.format("Đơn hàng #%d của bạn đang được giao", orderId);
+                                     body = String.format("Xin chào %s,\n\nTin vui! Đơn hàng #%d của bạn đã được bàn giao cho đơn vị vận chuyển và đang trên đường đến với bạn.\nVui lòng chuẩn bị để nhận hàng trong thời gian sớm nhất.\n\nCảm ơn bạn đã mua sắm!", customerName, orderId);
+                                     break;
+                                 case "Đã giao thành công":
+                                     subject = String.format("Đơn hàng #%d đã giao thành công", orderId);
+                                     body = String.format("Xin chào %s,\n\nWatchStore xác nhận đơn hàng #%d đã được giao thành công đến bạn.\nHy vọng bạn hài lòng với sản phẩm và hẹn gặp lại trong những lần mua sắm tiếp theo!", customerName, orderId);
+                                     break;
+                                 case "Đã hủy":
+                                     subject = String.format("Đơn hàng #%d của bạn đã được hủy", orderId);
+                                     body = String.format("Xin chào %s,\n\nChúng tôi rất tiếc phải thông báo rằng đơn hàng #%d của bạn đã được hủy theo yêu cầu hoặc do một số lý do khác.\nNếu có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi.\n\nCảm ơn bạn.", customerName, orderId);
+                                     break;
+                             }
+
+                             // Chỉ gửi email nếu có nội dung
+                             if (!subject.isEmpty() && !body.isEmpty()) {
+                                 com.watchstore.util.EmailUtil.sendEmail(toEmail, subject, body);
+                                 System.out.println("   >> Notification email sent to " + toEmail);
+                             }
+                         } else {
+                              System.err.println("   WARN: Could not find order details or customer email for order ID " + orderId + " to send notification.");
+                         }
+                     } catch (Exception e) {
+                         System.err.println("   ERROR: Failed to send notification email for order ID " + orderId);
+                         e.printStackTrace();
+                         // Không để lỗi gửi mail làm hỏng cả quy trình, chỉ ghi log
+                     }
+                     // --- KẾT THÚC GỬI EMAIL ---
 
                      // --- ⭐ LOGIC TRỪ KHO (KIỂM TRA KỸ HƠN) ⭐ ---
                      if ("Đã giao thành công".equals(newStatus)) {

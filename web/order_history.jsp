@@ -11,7 +11,8 @@
 <%-- <jsp:include page="left_menu.jsp" /> --%>
 
 <main class="content"> <%-- Đặt nội dung chính trong thẻ main.content --%>
-    <h2 class="title">Lịch Sử Đơn Hàng Của Tôi</h2>
+    <div class="content2">
+    <h2 class="title1">Lịch Sử Đơn Hàng Của Tôi</h2>
 
     <c:if test="${empty requestScope.orderList}">
         <p style="text-align: center; font-size: 1.1em; margin: 20px;">
@@ -56,6 +57,7 @@
             </tbody>
         </table>
     </c:if>
+    </div>
 </main>
 <%-- Phần nội dung chính kết thúc --%>
 

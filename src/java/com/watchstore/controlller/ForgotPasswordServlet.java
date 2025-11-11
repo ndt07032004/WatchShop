@@ -1,14 +1,13 @@
 package com.watchstore.controlller;
 
-import com.watchstore.dao.CategoryDAO;
-import com.watchstore.dao.PasswordResetDAO; // Import
+import com.watchstore.dao.PasswordResetDAO;
 import com.watchstore.dao.UserDAO;
-import com.watchstore.model.Category;
 import com.watchstore.model.User;
-import com.watchstore.util.EmailUtil; // Import
+import com.watchstore.util.EmailUtil;
 
 import java.io.IOException;
-import java.util.List;
+import java.security.SecureRandom;
+import java.util.Base64;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,75 +18,58 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ForgotPasswordServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        loadCategoriesAndForward(request, response, "forgot.jsp");
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         request.setCharacterEncoding("UTF-8");
         String email = request.getParameter("email");
-        String message = "";
-        boolean error = true;
+        
+        UserDAO userDAO = new UserDAO();
+        PasswordResetDAO passwordResetDAO = new PasswordResetDAO();
+        
+        User user = userDAO.findUserByEmail(email);
 
-        if (email == null || email.trim().isEmpty()) {
-            message = "Vui lòng nhập địa chỉ email của bạn.";
-        } else {
-            email = email.trim();
-            UserDAO userDAO = new UserDAO();
-            User user = userDAO.findUserByEmail(email);
+        String successMessage = "Nếu email của bạn tồn tại trong hệ thống, một liên kết đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư của bạn (bao gồm cả thư mục spam).";
+        request.setAttribute("success", successMessage);
 
-            if (user == null) {
-                // Security: Don't reveal if email exists or not
-                message = "Nếu email của bạn tồn tại trong hệ thống, bạn sẽ nhận được một liên kết đặt lại mật khẩu.";
-                error = false; // Pretend success
-                System.out.println("DEBUG (ForgotPassword): Request for non-existent email: " + email);
-            } else {
-                PasswordResetDAO resetDAO = new PasswordResetDAO();
-                String token = userDAO.generateRandomToken();
+        if (user != null) {
+            System.out.println("DEBUG: User found for email: " + email + ". Preparing to send email.");
+            try {
+                String token = generateRandomToken();
+                boolean saved = passwordResetDAO.saveToken(email, token);
 
-                if (resetDAO.saveToken(email, token)) {
-                    // Build reset link dynamically
-                    String resetLink = String.format("%s://%s:%d%s/reset-password?token=%s",
-                                       request.getScheme(), request.getServerName(), request.getServerPort(),
-                                       request.getContextPath(), token);
+                if (saved) {
+                    String resetLink = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/reset-password?token=" + token;
 
-                    boolean emailSent = EmailUtil.sendPasswordResetEmail(email, user.getFullname(), resetLink);
+                    String subject = "WatchStore - Yêu Cầu Đặt Lại Mật Khẩu";
+                    String body = "Xin chào " + user.getFullname() + ",\n\n"
+                                + "Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn.\n"
+                                + "Vui lòng nhấp vào liên kết bên dưới để đặt lại mật khẩu của bạn:\n"
+                                + resetLink + "\n\n"
+                                + "Liên kết này sẽ hết hạn trong vòng " + PasswordResetDAO.EXPIRATION_MINUTES + " phút.\n"
+                                + "Nếu bạn không yêu cầu điều này, vui lòng bỏ qua email này.\n\n"
+                                + "Trân trọng,\nĐội ngũ WatchStore";
 
-                    if (emailSent) {
-                        message = "Yêu cầu đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra email (cả thư mục Spam).";
-                        error = false;
-                        System.out.println("DEBUG (ForgotPassword): Email sent to: " + email);
-                    } else {
-                        message = "Lỗi khi gửi email. Vui lòng thử lại sau.";
-                        System.err.println("ERROR (ForgotPassword): Failed to send email to: " + email);
-                    }
-                } else {
-                    message = "Lỗi hệ thống khi xử lý yêu cầu. Vui lòng thử lại sau.";
-                    System.err.println("ERROR (ForgotPassword): Failed to save token for: " + email);
+                    System.out.println("DEBUG: Calling EmailUtil.sendEmail...");
+                    EmailUtil.sendEmail(email, subject, body);
+                    System.out.println("SUCCESS: EmailUtil.sendEmail call completed without throwing an exception.");
+
                 }
+            } catch (Exception e) {
+                System.err.println("ERROR: An exception occurred during the email sending process.");
+                e.printStackTrace(); 
             }
-        }
-
-        if (error) {
-            request.setAttribute("error", message);
         } else {
-            request.setAttribute("success", message);
+            System.out.println("DEBUG: No user found for email: " + email + ". Not sending email.");
         }
-
-        loadCategoriesAndForward(request, response, "forgot.jsp");
+        
+        request.getRequestDispatcher("forgot.jsp").forward(request, response);
     }
 
-    private void loadCategoriesAndForward(HttpServletRequest request, HttpServletResponse response, String jspPage)
-            throws ServletException, IOException {
-        // (Implementation provided previously)
-         CategoryDAO categoryDAO = new CategoryDAO(); List<Category> categoryList = categoryDAO.getAllCategories(); request.setAttribute("categoryList", categoryList); request.getRequestDispatcher(jspPage).forward(request, response);
-    }
-
-     @Override
-    public String getServletInfo() {
-        return "Handles initial password reset request.";
+    private String generateRandomToken() {
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[32]; // 256 bits
+        random.nextBytes(bytes);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
     }
 }

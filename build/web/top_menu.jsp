@@ -26,7 +26,7 @@
                     <c:when test="${sessionScope.account != null}">
                         <li class="dropdown ${activePage eq 'profile' ? 'active' : ''}">
                             <a href="javascript:void(0);" style="cursor: default;">
-                                Chào, ${sessionScope.account.fullname}
+                                Chào, <c:out value="${sessionScope.account.fullname}"/>
                             </a>
                             <ul class="submenu">
                                 <li><a href="<c:url value='/order-history'/>">Đơn hàng của tôi</a></li>
@@ -38,9 +38,9 @@
                     <c:otherwise>
                         <li class="${activePage eq 'login' ? 'active' : ''}"><a href="<c:url value='/login.jsp'/>">Đăng Nhập</a></li>
                         <li class="${activePage eq 'register' ? 'active' : ''}"><a href="<c:url value='/register.jsp'/>">Đăng Ký</a></li>
-                    </c:otherwise>
-                </c:choose>
+                        </c:otherwise>
+                    </c:choose>
             </ul>
         </nav>
-        <div id="wrapper">
-            <div class="container">
+        <div id="wrapper" style="background-image:url('images/background.jpg');background-size: 100% 100%">
+             <div class="container">

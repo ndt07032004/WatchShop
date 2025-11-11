@@ -44,7 +44,7 @@ public class EditProfileServlet extends HttpServlet {
         try {
             if ("updateUserProfile".equals(action)) {
                 // (Code updateInfo đã đúng)
-                 String fullname = request.getParameter("fullname"); String email = request.getParameter("email"); String phone = request.getParameter("phone"); String address = request.getParameter("address"); user.setFullname(fullname.trim()); user.setEmail(email.trim()); user.setPhone(phone.trim()); user.setAddress(address.trim()); if (userDAO.updateUserInfo(user)) { message = "Cập nhật thông tin thành công!"; session.setAttribute("account", user); } else { message = "Cập nhật thông tin thất bại!"; error = true; }
+                 String fullname = request.getParameter("fullname"); String email = request.getParameter("email"); String phone = request.getParameter("phone"); String address = request.getParameter("address"); user.setFullname(fullname.trim()); user.setEmail(email.trim()); user.setPhone(phone.trim()); user.setAddress(address.trim()); if (userDAO.updateUserProfile(user)) { message = "Cập nhật thông tin thành công!"; session.setAttribute("account", user); } else { message = "Cập nhật thông tin thất bại!"; error = true; }
             }
             else if ("updatePassword".equals(action)) {
                 String oldPass = request.getParameter("oldPassword");

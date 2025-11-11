@@ -61,21 +61,18 @@
                         <td><small>${order.customerAddress}</small></td>
                         
                         <td class="product-details-cell" style="text-align: left; font-size: 0.85em;">
-                            <%-- Lấy danh sách chi tiết từ Map bằng ID đơn hàng hiện tại --%>
-                            <c:set var="details" value="${orderDetailsMap[order.id]}" />
-                            <c:if test="${not empty details}">
-                                <%-- Lặp qua danh sách chi tiết --%>
+                            <%-- Lấy danh sách chi tiết trực tiếp từ đối tượng order --%>
+                            <c:if test="${not empty order.details}">
                                 <ul style="margin: 0; padding-left: 15px; list-style: square;">
-                                    <c:forEach items="${details}" var="detail" varStatus="loop">
-                                        <li style="${loop.index > 1 ? 'margin-top: 5px;' : ''}"> <%-- Thêm khoảng cách nếu nhiều SP --%>
-                                            <%-- Hiển thị tên SP (cần có detail.product.name) --%>
-                                            ${detail.product.name} (SL: ${detail.quantity})
+                                    <c:forEach items="${order.details}" var="detail" varStatus="loop">
+                                        <li style="${loop.index > 1 ? 'margin-top: 5px;' : ''}">
+                                            <c:out value="${detail.product.name}"/> (SL: <c:out value="${detail.quantity}"/>)
                                         </li>
                                     </c:forEach>
                                 </ul>
                             </c:if>
-                            <c:if test="${empty details}">
-                                <i style="color: grey;">(Không có chi tiết)</i>
+                            <c:if test="${empty order.details}">
+                                <i style="color: grey;">(Không có sản phẩm)</i>
                             </c:if>
                         </td>
                         <%-- ⭐ KẾT THÚC TD MỚI ⭐ --%>

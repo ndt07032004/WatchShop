@@ -29,7 +29,7 @@ public class UserDAO {
             ps.setString(6, user.getAddress());
 
             return ps.executeUpdate() > 0;
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
@@ -69,7 +69,7 @@ public class UserDAO {
                     }
                 }
             }
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -85,7 +85,7 @@ public class UserDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next(); // Nếu có kết quả, trả về true
             }
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
@@ -101,8 +101,22 @@ public class UserDAO {
             ps.setString(4, user.getAddress());
             ps.setInt(5, user.getId());
 
-            return ps.executeUpdate() > 0;
+            System.out.println("DEBUG (UserDAO - updateUserProfile): Attempting to update user ID: " + user.getId());
+            System.out.println("DEBUG (UserDAO - updateUserProfile): Fullname: " + user.getFullname() + ", Email: " + user.getEmail() + ", Phone: " + user.getPhone() + ", Address: " + user.getAddress());
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("DEBUG (UserDAO - updateUserProfile): User profile updated successfully for ID: " + user.getId());
+                return true;
+            } else {
+                System.err.println("WARN (UserDAO - updateUserProfile): No rows affected for user ID: " + user.getId() + ". User not found or no changes made.");
+                return false;
+            }
+        } catch (SQLException e) {
+            System.err.println("ERROR (UserDAO - updateUserProfile): SQL Exception occurred while updating user profile for ID: " + user.getId());
+            e.printStackTrace();
         } catch (Exception e) {
+            System.err.println("ERROR (UserDAO - updateUserProfile): An unexpected error occurred while updating user profile for ID: " + user.getId());
             e.printStackTrace();
         }
         return false;
@@ -241,54 +255,8 @@ public class UserDAO {
     }
     // ⭐ REQUIRED for Forgot Password ⭐
 
-    public User findUserByEmail(String email) {
-        // (Implementation provided previously)
-        String query = "SELECT * FROM users WHERE email = ?";
-        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(1, email);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    User user = new User();
-                    user.setId(rs.getInt("id"));
-                    user.setUsername(rs.getString("username"));
-                    user.setFullname(rs.getString("fullname"));
-                    user.setEmail(rs.getString("email"));
-                    user.setPhone(rs.getString("phone"));
-                    user.setAddress(rs.getString("address"));
-                    user.setRole(rs.getInt("role"));
-                    System.out.println("DEBUG (UserDAO): Found user by email: " + email);
-                    return user;
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("ERROR (UserDAO - findUserByEmail): " + e.getMessage());
-            e.printStackTrace();
-        }
-        System.out.println("DEBUG (UserDAO): User not found for email: " + email);
-        return null;
-    }
 
-    // ⭐ REQUIRED for Reset Password ⭐
-    public boolean updatePasswordByEmail(String email, String newHashedPassword) {
-        // (Implementation provided previously)
-        String query = "UPDATE users SET password = ? WHERE email = ?";
-        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(1, newHashedPassword);
-            ps.setString(2, email);
-            int rowsAffected = ps.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("DEBUG (UserDAO): Updated password for email: " + email);
-                return true;
-            } else {
-                System.err.println("WARN (UserDAO): Failed to update password for email (not found?): " + email);
-                return false;
-            }
-        } catch (Exception e) {
-            System.err.println("ERROR (UserDAO - updatePasswordByEmail): " + e.getMessage());
-            e.printStackTrace();
-        }
-        return false;
-    }
+
 
     // ⭐ REQUIRED for Forgot Password (Token Generation) ⭐
     public String generateRandomToken() {
@@ -327,7 +295,52 @@ public class UserDAO {
         return false;
     }
 
-    public boolean updateUserInfo(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+    public User findUserByEmail(String email) {
+        String query = "SELECT * FROM users WHERE email = ?";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            ps.setString(1, email);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setUsername(rs.getString("username"));
+                    user.setFullname(rs.getString("fullname"));
+                    user.setEmail(rs.getString("email"));
+                    user.setRole(rs.getInt("role"));
+                    user.setAddress(rs.getString("address"));
+                    user.setPhone(rs.getString("phone"));
+                    return user;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Cập nhật mật khẩu mới (đã băm) cho người dùng dựa trên email.
+     * @param email Email của người dùng
+     * @param newHashedPassword Mật khẩu mới đã được băm
+     * @return true nếu cập nhật thành công.
+     */
+    public boolean updatePasswordByEmail(String email, String newHashedPassword) {
+        String query = "UPDATE users SET password = ? WHERE email = ?";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, newHashedPassword);
+            ps.setString(2, email);
+
+            return ps.executeUpdate() > 0;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

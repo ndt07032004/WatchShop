@@ -36,7 +36,7 @@ public class CategoryDAO {
                 c.setName(rs.getString("name"));
                 list.add(c);
             }
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         

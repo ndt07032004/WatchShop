@@ -384,8 +384,7 @@ public class OrderDAO {
         return list;
     }
 
-    // 🔹 Lấy chuỗi tóm tắt sản phẩm trong đơn hàng
-    private String getProductSummaryByOrderId(int orderId) {
+    public String getProductSummaryByOrderId(int orderId) {
         StringBuilder summary = new StringBuilder();
         String sql = """
             SELECT p.name, od.quantity
@@ -412,6 +411,117 @@ public class OrderDAO {
         }
 
         return summary.toString();
+    }
+
+    /**
+     * Lấy thông tin một đơn hàng và email của khách hàng.
+     * @param orderId ID của đơn hàng
+     * @return Đối tượng Order có chứa email và tên khách hàng
+     */
+    public Order getOrderWithCustomerEmail(int orderId) {
+        Order order = null;
+        String sql = """
+            SELECT o.*, u.email AS customer_email, u.fullname AS customer_fullname
+            FROM orders o
+            JOIN users u ON o.user_id = u.id
+            WHERE o.id = ?
+        """;
+
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    order = new Order();
+                    order.setId(rs.getInt("id"));
+                    order.setUserId(rs.getInt("user_id"));
+                    order.setOrderDate(rs.getTimestamp("order_date"));
+                    order.setTotalMoney(rs.getDouble("total_money"));
+                    order.setPaymentMethod(rs.getString("payment_method"));
+                    order.setStatus(rs.getString("status"));
+
+                    // Lấy thông tin khách hàng từ JOIN
+                    User customer = new User();
+                    customer.setEmail(rs.getString("customer_email"));
+                    customer.setFullname(rs.getString("customer_fullname"));
+                    order.setCustomer(customer); // Giả sử bạn có setter này trong model Order
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Lỗi getOrderWithCustomerEmail(" + orderId + "): " + e.getMessage());
+            e.printStackTrace();
+        }
+        return order;
+    }
+
+    /**
+     * [TỐI ƯU HÓA N+1] Lấy tất cả đơn hàng và chi tiết của chúng trong 1 truy vấn.
+     * @return Danh sách Order, mỗi Order đã chứa sẵn List<OrderDetail>
+     */
+    public List<Order> getAllOrdersWithDetails() {
+        List<Order> orderList = new ArrayList<>();
+        // Sử dụng Map để xử lý N+1, key là Order ID
+        java.util.Map<Integer, Order> orderMap = new java.util.LinkedHashMap<>();
+
+        String sql = """
+            SELECT
+                o.id AS order_id, o.user_id, o.order_date, o.total_money, o.customer_name,
+                o.customer_address, o.customer_phone, o.payment_method, o.status,
+                od.id AS detail_id, od.quantity, od.price AS price_at_purchase,
+                p.id AS product_id, p.name AS product_name, p.image AS product_image
+            FROM orders o
+            LEFT JOIN order_details od ON o.id = od.order_id
+            LEFT JOIN products p ON od.product_id = p.id
+            ORDER BY o.order_date DESC, o.id DESC, od.id ASC
+        """;
+
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                int orderId = rs.getInt("order_id");
+                Order order = orderMap.get(orderId);
+
+                // Nếu chưa có order này trong map, tạo mới và thêm vào
+                if (order == null) {
+                    order = new Order();
+                    order.setId(orderId);
+                    order.setUserId(rs.getInt("user_id"));
+                    order.setOrderDate(rs.getTimestamp("order_date"));
+                    order.setTotalMoney(rs.getDouble("total_money"));
+                    order.setCustomerName(rs.getString("customer_name"));
+                    order.setCustomerAddress(rs.getString("customer_address"));
+                    order.setCustomerPhone(rs.getString("customer_phone"));
+                    order.setPaymentMethod(rs.getString("payment_method"));
+                    order.setStatus(rs.getString("status"));
+                    orderMap.put(orderId, order);
+                }
+
+                // Nếu có chi tiết đơn hàng (detail_id không null), tạo và thêm vào order
+                if (rs.getInt("detail_id") != 0) {
+                    OrderDetail detail = new OrderDetail();
+                    detail.setId(rs.getInt("detail_id"));
+                    detail.setOrderId(orderId);
+                    detail.setProductId(rs.getInt("product_id"));
+                    detail.setQuantity(rs.getInt("quantity"));
+                    detail.setPrice(rs.getDouble("price_at_purchase"));
+
+                    Product product = new Product();
+                    product.setId(rs.getInt("product_id"));
+                    product.setName(rs.getString("product_name"));
+                    product.setImage(rs.getString("product_image"));
+                    detail.setProduct(product);
+
+                    order.getDetails().add(detail);
+                }
+            }
+            orderList.addAll(orderMap.values());
+
+        } catch (Exception e) {
+            System.err.println("Lỗi getAllOrdersWithDetails(): " + e.getMessage());
+            e.printStackTrace();
+        }
+        return orderList;
     }
 
     // 🔹 Lấy chi tiết từng đơn (nếu cần dùng ở trang admin)

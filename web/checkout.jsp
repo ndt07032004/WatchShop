@@ -17,7 +17,7 @@
 
 <main class="content"> <%-- Hoặc thẻ div chính của bạn --%>
     <div class="form-container" style="max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        <h2 class="title">Xác Nhận Đơn Hàng</h2>
+        <h2 class="title1">Xác Nhận Đơn Hàng</h2>
 
         <%-- Hiển thị thông báo Lỗi (nếu có) --%>
         <c:if test="${not empty requestScope.error}">

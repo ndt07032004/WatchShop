@@ -11,7 +11,7 @@
 <jsp:include page="top_menu.jsp" />
 <main class="content">
     <div class="form-container">
-        <h2 class="title">Liên Hệ Với Chúng Tôi</h2>
+        <h2 class="title1">Liên Hệ Với Chúng Tôi</h2>
         <a style="color:red; text-align: center;">${requestScope.error}</a>
         <a style="color:green; text-align: center;">${requestScope.success}</a>
         <form action="<c:url value='/contact'/>" method="post"> 

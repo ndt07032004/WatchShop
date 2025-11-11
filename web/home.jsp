@@ -19,8 +19,8 @@
         <c:forEach items="${productList}" var="p">
             <div class="product-item">
                 <a href="detail?pid=${p.id}">
-                    <img src="<c:url value='/${p.image}'/>" alt="${p.name}">
-                    <h3 class="product-name">${p.name}</h3>
+                    <img src="<c:url value='/${p.image}'/>" alt="<c:out value="${p.name}"/>">
+                    <h3 class="product-name"><c:out value="${p.name}"/></h3>
                     <p class="product-price">${p.formattedPrice}</p>
                 </a>
                 <a href="cart?action=add&id=${p.id}" class="add-to-cart-btn">Thêm vào giỏ</a>

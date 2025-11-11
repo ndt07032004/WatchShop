@@ -27,7 +27,7 @@ public class ContactDAO {
             ps.setString(3, contact.getMessage());
 
             return ps.executeUpdate() > 0;
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;

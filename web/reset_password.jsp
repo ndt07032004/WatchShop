@@ -7,7 +7,7 @@
 
 <main class="content">
     <div class="form-container" style="max-width: 450px;">
-        <h2 class="title">Đặt Lại Mật Khẩu</h2>
+        <h2 class="title1">Đặt Lại Mật Khẩu</h2>
 
         <%-- Display error messages (invalid token from GET or form errors from POST) --%>
         <c:if test="${not empty requestScope.error}">

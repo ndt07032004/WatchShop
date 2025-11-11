@@ -25,20 +25,6 @@ public class ProductDAO {
         return p;
     }
 
-    // Lấy tất cả sản phẩm
-//    public List<Product> getAllProducts() {
-//        List<Product> list = new ArrayList<>();
-//        String query = "SELECT * FROM products ORDER BY id DESC";
-//        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
-//            while (rs.next()) {
-//                list.add(mapResultSetToProduct(rs));
-//            }
-//        } catch (Exception e) {
-//            System.err.println("ERROR getting all products: " + e.getMessage());
-//            e.printStackTrace();
-//        }
-//        return list;
-//    }
 
     public List<Product> getAllProducts() {
         List<Product> list = new ArrayList<>();

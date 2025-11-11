@@ -16,9 +16,22 @@ public class Order {
     // ⭐ Thêm: Tóm tắt sản phẩm trong đơn (hiển thị hoặc xuất Excel)
     private String productSummary;
 
-    public Order() {}
+    // Thêm để chứa thông tin khách hàng khi cần
+    private User customer;
+
+    // Thêm để chứa danh sách chi tiết của đơn hàng
+    private java.util.List<OrderDetail> details;
+
+    public Order() {
+        this.details = new java.util.ArrayList<>(); // Khởi tạo list
+    }
 
     // --- Getters & Setters ---
+    public java.util.List<OrderDetail> getDetails() { return details; }
+    public void setDetails(java.util.List<OrderDetail> details) { this.details = details; }
+
+    public User getCustomer() { return customer; }
+    public void setCustomer(User customer) { this.customer = customer; }
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

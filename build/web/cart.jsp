@@ -8,7 +8,8 @@
 <jsp:include page="top_menu.jsp" />
 
 <main class="content">
-    <h2 class="title">Giỏ Hàng Của Bạn</h2>
+    <div class="content2">
+    <h2 class="title1">Giỏ Hàng Của Bạn</h2>
 
     <%-- Hiển thị thông báo từ session (ví dụ: lỗi tồn kho) --%>
     <c:if test="${not empty sessionScope.cartMessage}">
@@ -47,7 +48,7 @@
                             </a>
                         </td>
                         <td class="cart-name">
-                             <a href="detail?pid=${item.product.id}">${item.product.name}</a>
+                             <a href="detail?pid=${item.product.id}"><c:out value="${item.product.name}"/></a>
                              <%-- Hiển thị cảnh báo nếu số lượng bằng tồn kho --%>
                              <c:if test="${item.quantity >= item.product.stock}">
                                  <br/><small style="color: orange;">(Đã đạt SL tồn kho)</small>
@@ -107,6 +108,8 @@
             </div>
         </div>
     </c:if>
+    </div>
+   
 </main>
 
 <jsp:include page="footer.jsp" />

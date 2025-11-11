@@ -43,11 +43,11 @@
                         </c:if>
                          <c:if test="${empty p.image}"> <span style="color: grey; font-size: 0.8em;">(N/A)</span> </c:if>
                     </td>
-                    <td>${p.name}</td>
+                    <td><c:out value="${p.name}"/></td>
                     <td class="price"><fmt:formatNumber value="${p.price}" type="currency" currencyCode="VND"/></td>
                     <td class="price"><fmt:formatNumber value="${p.costPrice}" type="currency" currencyCode="VND"/></td> <%-- Hiển thị giá nhập --%>
-                    <td>${p.stock}</td>
-                    <td>${p.categoryName}</td> <%-- Hiển thị ID (Cần JOIN để có tên) --%>
+                    <td><c:out value="${p.stock}"/></td>
+                    <td><c:out value="${p.categoryName}"/></td> <%-- Hiển thị ID (Cần JOIN để có tên) --%>
                     <td class="actions">
                         <%-- Link Sửa (trỏ đến Servlet với action=edit) --%>
                         <a href="<c:url value='/admin/manage-products?action=edit&id=${p.id}'/>" class="action-btn edit-btn">Sửa</a>

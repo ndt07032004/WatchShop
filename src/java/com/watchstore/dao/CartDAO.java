@@ -210,49 +210,7 @@ public class CartDAO {
         }
     }
 
-    // ⭐ SỬA HÀM NÀY ⭐
-    // Gộp giỏ hàng session vào CSDL khi đăng nhập
-//    public void mergeSessionCart(int dbCartId, Cart sessionCart) {
-//        if (sessionCart == null || sessionCart.getItems() == null || sessionCart.getItems().isEmpty()) {
-//            System.out.println("DEBUG (CartDAO - merge): Session cart empty, nothing to merge for cart ID " + dbCartId);
-//            return;
-//        }
-//        System.out.println("DEBUG (CartDAO - merge): Merging session cart into DB cart ID " + dbCartId);
-//
-//        // Lấy giỏ hàng DB hiện tại để biết số lượng hiện có
-//        Cart dbCart = new Cart(dbCartId, 0); // Chỉ cần ID để load items
-//        Connection conn = null; // Mở connection một lần
-//        try {
-//            conn = DBContext.getConnection();
-//             if (conn == null) {
-//                  System.err.println("ERROR (CartDAO - merge): Cannot get DB connection.");
-//                  return;
-//             }
-//            loadCartItems(conn, dbCart); // Tải các item hiện có trong DB
-//
-//            for (Item sessionItem : sessionCart.getItems()) {
-//                if (sessionItem.getProduct() != null) {
-//                    Item dbItem = dbCart.getItemById(sessionItem.getProduct().getId());
-//                    int finalQuantity = sessionItem.getQuantity(); // Số lượng từ session
-//
-//                    if (dbItem != null) {
-//                        // Nếu sản phẩm đã có trong DB, cộng dồn số lượng
-//                        finalQuantity += dbItem.getQuantity();
-//                    }
-//                    // Gọi hàm addItem (đã sửa) để INSERT hoặc UPDATE vào CSDL
-//                    // Hàm addItem sẽ tự kiểm tra tồn kho
-//                    addItem(dbCartId, sessionItem.getProduct().getId(), finalQuantity);
-//                }
-//            }
-//             System.out.println("DEBUG (CartDAO - merge): Merge completed for cart ID " + dbCartId);
-//        } catch(Exception e) {
-//             System.err.println("ERROR (CartDAO - merge): " + e.getMessage());
-//             e.printStackTrace();
-//        } finally {
-//             try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
-//        }
-//    }
-
+  
 
     /**
      * Xóa một item khỏi giỏ hàng CSDL (bảng cart_items).

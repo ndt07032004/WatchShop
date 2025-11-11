@@ -6,6 +6,53 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Created on : Oct 17, 2025, 4:20:52 PM
     Author     : THAI
 */
+/* Modern Styles - Applied by AI */
+:root {
+    --primary-color: #007bff; /* Blue */
+    --secondary-color: #6c757d; /* Gray */
+    --accent-color: #ff6600; /* Orange (for highlights) */
+
+    --text-dark: #343a40;
+    --text-light: #6c757d;
+    --text-white: #ffffff;
+
+    --bg-light: #f8f9fa;
+    --bg-white: #ffffff;
+
+    --border-light: #dee2e6;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+}
+
+/* Base Styles & Typography */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5em;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
 /* General */
 body {
     font-family: 'Segoe UI', sans-serif;
@@ -55,25 +102,18 @@ html, body {
 .top-menu ul li.dropdown .submenu li a:hover {
     background-color: #555; /* Màu khi di chuột vào mục con */
 }
-/* Bỏ mũi tên nếu không thích */
-/* .top-menu ul li.dropdown > a::after {
-    content: ' \\25BC';
-    font-size: 0.8em;
-    margin-left: 5px;
-} */
-#wrapper {
-    /* Đặt wrapper làm container chính cho nội dung có thể cuộn */
-    display: flex;
-    flex-direction: column;
-    min-height: 100%; /* Đảm bảo wrapper kéo dài hết chiều cao viewport */
-}
 
-/* Container chứa nội dung chính (header, menu, main) */
 .container {
     flex: 1; /* Cho phép container này mở rộng hết không gian còn lại */
     display: flex; /* Dùng flex cho layout 2 cột (menu trái và nội dung chính) */
-}
 
+}
+.container2{
+    flex: 1; /* Cho phép container này mở rộng hết không gian còn lại */
+    display: flex; /* Dùng flex cho layout 2 cột (menu trái và nội dung chính) */
+    background: #fff;
+
+}
 /* Đảm bảo content và menu bên trái nằm trong container và giãn nở */
 
 
@@ -102,12 +142,21 @@ footer {
     padding-top: 20px;
     margin:  auto;
     box-shadow: 0 0 15px rgba(0,0,0,0.15);
-    background-color: #fff;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100%; /* Đảm bảo wrapper kéo dài hết chiều cao viewport */
 }
 .title {
     border-bottom: 2px solid #007bff;
     padding-bottom: 10px;
-    color: #333;
+    color: #ffffff;
+}
+.title1 {
+    text-align: center;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    color: black;
 }
 a {
     text-decoration: none;
@@ -173,6 +222,17 @@ a:hover {
     margin-top: 21px;
     flex: 4;
     padding-left: 20px;
+    padding-right: 20px;
+
+}
+.content2 {
+    padding-top: 2px;
+    margin-top: 21px;
+    flex: 4;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #ffffff;
+
 }
 /* Left Menu */
 .left-menu {
@@ -187,7 +247,7 @@ a:hover {
 .left-menu ul li a {
     display: block;
     padding: 10px 5px;
-    color: #333;
+    color: #ffffff;
     border-bottom: 1px dotted #ccc;
     transition: all 0.3s;
 }
@@ -204,79 +264,105 @@ a:hover {
     gap: 20px;
 }
 .product-item {
-    border: 1px solid #ddd;
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
     text-align: center;
-    padding: 10px;
-    transition: transform 0.2s;
+    padding: 15px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    overflow: hidden; /* Đảm bảo nội dung không tràn ra ngoài bo góc */
+    background: #fff;
 }
 .product-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px var(--shadow-light);
 }
 .product-item img {
     max-width: 100%;
-    height: 200px;
+    height: 180px; /* Chiều cao cố định cho ảnh */
     object-fit: contain;
+    margin-bottom: 10px;
 }
 .product-name {
-    font-size: 1em;
-    height: 40px;
+    font-size: 1.1em;
+    font-weight: 500;
+    height: 45px; /* Chiều cao cố định cho tên sản phẩm */
     overflow: hidden;
     margin: 10px 0;
-    color: #333;
+    color: var(--text-dark);
+    line-height: 1.3;
 }
 .product-price {
-    color: #d9534f;
-    font-weight: bold;
-    font-size: 1.1em;
+    color: var(--accent-color);
+    font-weight: 700;
+    font-size: 1.2em;
+    margin-top: 10px;
+    margin-bottom: 15px;
 }
 .add-to-cart-btn {
-    background: #5cb85c;
-    color: white;
+    background: var(--primary-color);
+    color: var(--text-white);
     padding: 10px 15px;
     border-radius: 5px;
     display: inline-block;
     margin-top: 10px;
+    transition: background-color 0.3s ease;
 }
 .add-to-cart-btn:hover {
-    background: #4cae4c;
+    background: var(--accent-color);
     text-decoration: none;
 }
 /* Forms */
 .form-container {
+    padding-left: 25px;
+    padding-bottom: 20px;
     max-width: 500px;
     margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background: #f9f9f9;
+    padding-right: 25px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--bg-white);
+    box-shadow: 0 5px 15px var(--shadow-light);
+
+
+
 }
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 .form-group label {
-    margin-left: 10px;
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-dark);
 }
 .form-group input, .form-group textarea {
-    margin-left: 10px;
-    width: calc(100% - 22px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-light);
+    border-radius: 5px;
+    font-size: 1em;
+    color: var(--text-dark);
+    transition: border-color 0.3s ease;
+}
+.form-group input:focus, .form-group textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
 }
 .submit-btn {
-    margin-left: 10px;
-    background: #007bff;
-    color: white;
+    background: var(--primary-color);
+    color: var(--text-white);
     padding: 12px 25px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 96%;
-    font-size: 16px;
+    width: 100%;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+.submit-btn:hover {
+    background: var(--accent-color);
 }
 /* Product Detail */
 .product-detail {
@@ -301,8 +387,7 @@ footer {
     background: #343a40;
     color: #f8f9fa;
     text-align: center;
-    padding: 20px;
-    margin-top: 20px;
+
     font-size: 0.9em;
 }
 .title{
@@ -410,7 +495,7 @@ footer {
 }
 
 .cart-summary {
-    text-align: right;
+    text-align: center;
     margin: 30px 0;
     padding: 25px 0;
     border-top: 2px solid #dee2e6;
@@ -418,7 +503,7 @@ footer {
 .cart-summary h3 {
     margin-bottom: 25px;
     font-size: 1.4em;
-    color: #495057;
+    color: #007fff;
 }
 .total-price {
     color: #dc3545;
@@ -452,4 +537,23 @@ footer {
     background-color: #0b5ed7;
 }
 .cart-message.error { /* Style cho thông báo lỗi */
+}
+/* Sửa khối này trong file style.css */
+.form-group {
+
+    position: relative;
+
+    margin-bottom: 15px;
+    /* Các thuộc tính khác giữ nguyên */
+}
+.toggle-eye {
+    position: absolute; /* Định vị tuyệt đối */
+
+    /* 2 giá trị này sẽ đặt con mắt vào BÊN TRONG ô input */
+    top: 38px;  /* Căn theo chiều dọc (cần điều chỉnh nếu label của bạn cao thấp khác nhau) */
+    right: 20px; /* Căn lề phải */
+
+    cursor: pointer;
+    font-size: 1.1em;
+    user-select: none;
 }

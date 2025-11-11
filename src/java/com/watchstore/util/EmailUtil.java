@@ -1,76 +1,76 @@
-package com.watchstore.util; // Or your package
+package com.watchstore.util;
 
-import com.watchstore.dao.PasswordResetDAO; // Make sure PasswordResetDAO is accessible
-import jakarta.mail.*;
-import jakarta.mail.internet.*;
 import java.util.Properties;
-import java.io.UnsupportedEncodingException; // Added for exception handling
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 
 public class EmailUtil {
 
-    // --- ⭐ CONFIGURE YOUR GMAIL DETAILS HERE ⭐ ---
-    private static final String FROM_EMAIL = "your-email@gmail.com"; // Your sending Gmail address
-    private static final String APP_PASSWORD = "your_app_password"; // Your 16-digit Gmail App Password
-    private static final String SMTP_HOST = "smtp.gmail.com";
-    private static final String SMTP_PORT = "587"; // TLS Port for Gmail
-    // --- END CONFIGURATION ---
+    // --- ⭐ CẤU HÌNH EMAIL CỦA BẠN TẠI ĐÂY ⭐ ---
+    // 1. Email Gmail của bạn
+        private static final String FROM_EMAIL = "ndthai.dhti16a1hn@sv.uneti.edu.vn"; // THAY "your-email@gmail.com" BẰNG EMAIL CỦA BẠN
+        // 2. Mật khẩu ứng dụng (16 ký tự) lấy từ Google
+        private static final String APP_PASSWORD = "bynb mnap ekmk esnk"; // THAY "your_16_digit_app_password" BẰNG MẬT KHẨU ỨNG DỤNG CỦA BẠN 
+    // --- HẾT CẤU HÌNH ---
 
     /**
-     * Sends the password reset email.
-     * @param toEmail Recipient's email
-     * @param recipientName Recipient's name
-     * @param resetLink The password reset link including the token
-     * @return true if sent successfully, false otherwise.
+     * Gửi email văn bản đơn giản.
+     * @param toEmail Email người nhận
+     * @param subject Tiêu đề email
+     * @param body Nội dung email
+     * @throws MessagingException
      */
-    public static boolean sendPasswordResetEmail(String toEmail, String recipientName, String resetLink) {
+    public static void sendEmail(String toEmail, String subject, String body) throws MessagingException {
+        
         Properties props = new Properties();
-        props.put("mail.smtp.host", SMTP_HOST);
-        props.put("mail.smtp.port", SMTP_PORT);
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true"); // Use STARTTLS
+        props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP Host
+        props.put("mail.smtp.port", "587"); // TLS Port
+        props.put("mail.smtp.auth", "true"); // Bật xác thực
+        props.put("mail.smtp.starttls.enable", "true"); // Bật STARTTLS
 
+        // BẬT DEBUG MODE
+        // props.put("mail.debug", "true");
+
+        // Tạo phiên (Session) với trình xác thực
         Authenticator auth = new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(FROM_EMAIL, APP_PASSWORD);
             }
         };
-
         Session session = Session.getInstance(props, auth);
-        // session.setDebug(true); // Uncomment for detailed SMTP logs if needed
 
+        // Tạo đối tượng MimeMessage
+        MimeMessage msg = new MimeMessage(session);
+        
         try {
-            MimeMessage msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(FROM_EMAIL, "WatchStore Support")); // Sender display name
+            // Đặt người gửi
+            msg.setFrom(new InternetAddress(FROM_EMAIL, "WatchStore Support"));
+            
+            // Đặt người nhận
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
-            msg.setSubject("Yêu cầu đặt lại mật khẩu WatchStore", "UTF-8");
-
-            // Build HTML content
-            String htmlContent = String.format("""
-                <html><body style='font-family: Arial, sans-serif;'>
-                <h2>Xin chào %s,</h2>
-                <p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản WatchStore của bạn.</p>
-                <p>Vui lòng nhấp vào liên kết dưới đây để đặt lại mật khẩu:</p>
-                <p style='margin: 20px 0;'>
-                    <a href='%s' style='background-color: #0d6efd; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;'>Đặt Lại Mật Khẩu</a>
-                </p>
-                <p>Liên kết này sẽ hết hạn sau %d phút.</p>
-                <p>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.</p>
-                <p>Trân trọng,<br>Đội ngũ WatchStore</p>
-                </body></html>
-                """, recipientName, resetLink, PasswordResetDAO.EXPIRATION_MINUTES); // Use public constant
-
-            msg.setContent(htmlContent, "text/html; charset=UTF-8");
-
-            Transport.send(msg); // Send the email
-
-            System.out.println("INFO (EmailUtil): Password reset email sent successfully to " + toEmail);
-            return true;
-
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            System.err.println("ERROR (EmailUtil): Failed to send email to " + toEmail);
+            
+            // Đặt tiêu đề (Subject) - hỗ trợ Tiếng Việt
+            msg.setSubject(subject, "UTF-8");
+            
+            // Đặt nội dung (Body) - hỗ trợ Tiếng Việt
+            msg.setText(body, "UTF-8");
+            
+            // Gửi email
+            Transport.send(msg);
+            
+            System.out.println("INFO (EmailUtil): Gửi email thành công đến " + toEmail);
+            
+        } catch (Exception e) {
+            System.err.println("ERROR (EmailUtil): Lỗi khi gửi email đến " + toEmail);
             e.printStackTrace();
-            return false;
+            throw new MessagingException("Lỗi khi gửi email", e);
         }
     }
 }

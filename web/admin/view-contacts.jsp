@@ -53,9 +53,9 @@
                         </c:if>
                         <c:if test="${empty contact.createdAt}">N/A</c:if> <%-- Fallback if no date --%>
                     </td>
-                    <td>${contact.name}</td>
-                    <td><a href="mailto:${contact.email}">${contact.email}</a></td> <%-- Mailto link --%>
-                    <td style="white-space: pre-wrap; word-break: break-word;">${contact.message}</td> <%-- Allow line breaks --%>
+                    <td><c:out value="${contact.name}"/></td>
+                    <td><a href="mailto:<c:out value="${contact.email}"/>"><c:out value="${contact.email}"/></a></td> <%-- Mailto link --%>
+                    <td style="white-space: pre-wrap; word-break: break-word;"><c:out value="${contact.message}"/></td> <%-- Allow line breaks --%>
                 </tr>
             </c:forEach>
         </tbody>
